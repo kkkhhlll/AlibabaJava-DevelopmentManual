@@ -5,3 +5,26 @@ P11:使用集合转数组的方法，必须使用集合的 toArray(T[] array)，
     // 将数组转换为列表
     List<String> list = Arrays.asList(array); 
     需要注意的是，`Arrays.asList()`返回的列表是一个固定大小的列表，不能执行添加或删除操作。如果需要一个可变大小的列表，可以使用`ArrayList`来创建一个新的列表：
+
+不要在 foreach 循环里进行元素的 remove / add 操作。remove 元素请使用 iterator 方式，如果并发操作，需要对 iterator 对象加锁。
+    List<String> list = new ArrayList<>();
+    list.add("1");
+    list.add("2");
+    Iterator<String> iterator = list.iterator();
+    while (iterator.hasNext()) {
+        String item = iterator.next();
+        if (删除元素的条件) {
+            iterator.remove();
+        }
+    }
+
+集合初始化时，指定集合初始值大小。HashMap设为16
+使用 entrySet 遍历 Map 类集合 KV，而不是 keySet 方式进行遍历。
+    keySet 其实是遍历了 2 次，一次是转为 Iterator 对象，另一次是从 hashMap 中取出 key 所对应的 value。而
+    entrySet 只是遍历了一次就把 key 和 value 都放到了 entry 中，效率更高。如果是 JDK8，使用 Map.forEach 方法。
+
+类、类属性、类方法的注释必须使用 Javadoc 规范，使用 /** 内容 */ 格式，不得使用 // xxx方式。
+所有的抽象方法（包括接口中的方法）必须要用 Javadoc 注释、除了返回值、参数异常说明外，还必须指出该方法做什么事情，实现什么功能。
+所有的类都必须添加创建者和创建日期。
+
+对于暂时被注释掉，后续可能恢复使用的代码片断，在注释代码上方，统一规定使用三个斜杠(///)来说明注释掉代码的理由：
