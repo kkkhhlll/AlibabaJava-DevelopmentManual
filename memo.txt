@@ -1,1 +1,7 @@
 P11:使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全一致、长度为0的空数组。
+    String[] array = list.toArray(new String[0]);
+    如果不是0的话，会根据list的大小再去创建新的array，增加了GC
+    
+    // 将数组转换为列表
+    List<String> list = Arrays.asList(array); 
+    需要注意的是，`Arrays.asList()`返回的列表是一个固定大小的列表，不能执行添加或删除操作。如果需要一个可变大小的列表，可以使用`ArrayList`来创建一个新的列表：
